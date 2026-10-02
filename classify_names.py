@@ -34,9 +34,12 @@ SYSTEM_PROMPT = """You classify US baby first names by the origin or inspiration
 Themes:
 - nature: the name is a plant, flower, tree, animal, bird, weather, season, body of water,
   landscape feature, or celestial/natural phenomenon (e.g. Rose, Willow, River, Autumn, Wolf).
-- religion: the name is a figure, place, or term from a religious tradition (Bible, Quran,
-  Hindu, Buddhist, other faiths, saints) or a religious concept (e.g. Mary, Elijah, Fatima,
-  Faith, Trinity, Nevaeh, Krishna).
+- religion: the name itself is a figure, place, or term that appears in a religious text or
+  tradition (Bible, Quran, Hindu, Buddhist and other scriptures) or is a religious concept
+  (e.g. Mary, Elijah, Fatima, Faith, Trinity, Nevaeh, Krishna). Use only when parents choosing
+  the name would clearly evoke that religion. Do NOT use religion just because a saint
+  shares the name (George, Kevin, Barbara) or the name has Greek/Latin roots or a distant
+  biblical link (Jason, Lisa, Susan, Betty); those are 'other'.
 - other: neither (e.g. surnames, invented names, names of non-religious origin).
 
 Rules:
@@ -124,9 +127,15 @@ def main():
         results = classify_batch(chain, batch)
         rows = [{"name": r.name, "theme": r.theme, "confidence": r.confidence,
                  "reason": r.reason, "model": args.model} for r in results]
-        errors = client.insert_rows_json(THEMES_TABLE, rows)
-        if errors:
-            sys.exit(f"BigQuery insert failed: {errors[:3]}")
+        # Load jobs (not streaming inserts) so this works on the BigQuery free tier.
+        client.load_table_from_json(
+            rows,
+            THEMES_TABLE,
+            job_config=bigquery.LoadJobConfig(
+                write_disposition="WRITE_APPEND",
+                schema=client.get_table(THEMES_TABLE).schema,
+            ),
+        ).result()
         done += len(rows)
         missed = len(batch) - len(rows)
         print(f"{done}/{len(names)} saved" + (f" ({missed} missed, will retry on next run)" if missed else ""))
