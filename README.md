@@ -37,3 +37,8 @@ Common projects include:
 - Measuring how names shift between boys and girls over decades
 - Estimating someone's likely age from their first name
 - Measuring name diversity (the top names cover a much smaller share of babies today than in the 1950s)
+
+## Project files
+
+- `name_lenght.sql`, `top_names.sql`, `new_names.sql`: BigQuery analysis queries (table `example-501820.babynames.names_all`).
+- `classify_names.py`: LangChain + Claude script that tags names as `nature` / `religion` / `other` and saves them to `babynames.name_themes`, so theme queries don't need hard-coded name lists. Needs `ANTHROPIC_API_KEY` set in your environment (never commit it).
