@@ -32,8 +32,10 @@ THEMES_TABLE = f"{PROJECT}.babynames.name_themes"
 SYSTEM_PROMPT = """You classify US baby first names by the origin or inspiration of the name.
 
 Themes:
-- nature: the name is a plant, flower, tree, animal, bird, weather, season, body of water,
-  landscape feature, or celestial/natural phenomenon (e.g. Rose, Willow, River, Autumn, Wolf).
+- nature: the name is a plant, flower, tree, herb, animal, bird, gemstone or mineral, a color
+  named after something in nature, weather, season, body of water, landscape feature, or
+  celestial/natural phenomenon (e.g. Rose, Violet, Juniper, Jade, Ruby, Willow, River,
+  Autumn, Wolf, Luna).
 - religion: the name itself is a figure, place, or term that appears in a religious text or
   tradition (Bible, Quran, Hindu, Buddhist and other scriptures) or is a religious concept
   (e.g. Mary, Elijah, Fatima, Faith, Trinity, Nevaeh, Krishna). Use only when parents choosing
