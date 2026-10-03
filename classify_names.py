@@ -120,7 +120,7 @@ def main():
     prompt = ChatPromptTemplate.from_messages(
         [("system", SYSTEM_PROMPT), ("human", "Classify these names:\n{names}")]
     )
-    llm = ChatAnthropic(model=args.model, temperature=0, max_retries=5)
+    llm = ChatAnthropic(model=args.model, temperature=0, max_retries=5, timeout=60)
     chain = prompt | llm.with_structured_output(Batch)
 
     done = 0
