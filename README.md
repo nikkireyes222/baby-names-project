@@ -42,3 +42,4 @@ Common projects include:
 
 - `name_lenght.sql`, `top_names.sql`, `new_names.sql`: BigQuery analysis queries (table `example-501820.babynames.names_all`).
 - `classify_names.py`: LangChain + Claude script that tags names as `nature` / `religion` / `other` and saves them to `babynames.name_themes`, so theme queries don't need hard-coded name lists. Needs `ANTHROPIC_API_KEY` set in your environment (never commit it).
+- `exploratory_queries.sql`: 10 starter queries to adapt in the BigQuery console (name rank over time, concentration, gender-neutral and gender-flipped names, biggest jumps, theme shares, first-letter trends).
